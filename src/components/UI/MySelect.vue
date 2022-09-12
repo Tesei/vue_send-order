@@ -5,7 +5,7 @@
             <slot></slot>
         </label>
 
-        <select class="select__item" @change="changeOption" v-model="modelValue">
+        <select class="select__item" @change="changeOption" v-model="defaultTown">
             <option class="select__option" v-for="option in options" :key="option.id" :value="option.id">
                 {{ option.name }}
             </option>
@@ -22,7 +22,7 @@ import { mapState, } from 'vuex'
 export default {
     name: 'my-select',
     props: {
-        modelValue: { type: String },
+        modelValue: [Number, String],
         order: [String, Number],
         options: {
             type: Array,
@@ -35,8 +35,13 @@ export default {
         }
     },
     computed: {
+        defaultTown() {
+            return this.modelValue
+        },
         ...mapState({
             selectedTown: state => state.selectedTown,
+            dataToSend: state => state.dataToSend,
+            // cities: state => state.cities,
         }),
     },
 }

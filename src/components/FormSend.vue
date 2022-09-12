@@ -1,20 +1,20 @@
 <template>
 
-    <div class="form" @click.self="pickTheTown('')">
+    <div class="form" @click.self="changeShowForm(false)">
         <div class="form__wrap">
             <h2 class="form__title">Заказать звонок</h2>
             <div class="form__row">
-                <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
-                    :data-error="dataError" :typeInput="text" class="form__input form__column" v-model="name">
+                <my-input :nameId="'text'" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
+                    :data-error="dataError" :typeInput="'text'" class="form__input form__column" v-model="name">
                     Имя*
                 </my-input>
-                <my-input :nameId="2" :req="true" :telNumber="true" :clickButton="clickButton"
-                    :placeHolder="placeHolders[1]" :data-error="dataError" :typeInput="number"
-                    class="form__input form__column" v-model="number">
+                <my-input :nameId="'number'" :req="true" :telNumber="true" :clickButton="clickButton"
+                    :placeHolder="placeHolders[1]" :data-error="dataError" :typeInput="'tel'"
+                    class="form__input form__column" v-model="phone">
                     Телефон*
                 </my-input>
-                <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
-                    :data-error="dataError" :typeInput="email" class="form__input form__column" v-model="email">
+                <my-input :nameId="'email'" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
+                    :data-error="dataError" :typeInput="'email'" class="form__input form__column" v-model="email">
                     Email*
                 </my-input>
                 <my-select :options="cities" v-model="idTown" class="form__select form__column">
@@ -36,7 +36,7 @@ export default {
     data() {
         return {
             name: '',
-            number: '',
+            phone: '',
             email: '',
             idTown: '',
         }
@@ -45,17 +45,21 @@ export default {
         ...mapState({
             placeHolders: state => state.placeHolders,
             cities: state => state.cities,
+            dataTown: state => state.dataToSend.city_id,
         }),
     },
     methods: {
         ...mapActions({
-            pickTheTown: 'pickTheTown',
+            changeShowForm: 'changeShowForm',
             createDataToSend: 'createDataToSend',
         }),
         checkDataToSend() {
-            this.createDataToSend({ name: this.name, phone: this.number, email: this.email, city_id: this.idTown })
+            this.createDataToSend({ name: this.name, phone: this.phone, email: this.email, city_id: this.idTown })
         },
     },
+    mounted() {
+        this.idTown = this.dataTown;
+    }
 }
 </script>
 

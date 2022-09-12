@@ -9,11 +9,12 @@
 
         <input v-if="telNumber" v-mask="'+7 (###) ###-##-##'" :type="typeInput" class="input" :value="modelValue"
             @input="updateInput" :class="{ '_req': req, '_active': checkDataValue, '_error': showError }" :id="nameId"
-            autocomplete="off" name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
+            autocomplete="off" name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError"
+            v-model="insertData">
 
         <input v-else :type="typeInput" class="input" :value="modelValue" @input="updateInput"
             :class="{ '_req': req, '_active': checkDataValue, '_error': showError }" :id="nameId" autocomplete="off"
-            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
+            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError" v-model="insertData">
 
         <div v-if="showError" class="form__error">{{ dataError }}</div>
     </div>
@@ -22,6 +23,7 @@
 
 <script>
 import { mask } from 'vue-the-mask'
+import { mapState } from 'vuex'
 
 export default {
     name: 'my-input',
@@ -65,6 +67,9 @@ export default {
         },
     },
     computed: {
+        ...mapState({
+            dataToSend: state => state.dataToSend,
+        }),
         checkDataValue() {
             if (this.modelValue) return true;
             else return false;
@@ -72,6 +77,10 @@ export default {
         showError() {
             if (this.clickButton && this.modelValue == false) return true;
             else return false;
+        },
+        insertData() {
+            if (this.dataToSend[this.nameId]) return this.dataToSend[this.nameId]
+            return ''
         },
     }
 }

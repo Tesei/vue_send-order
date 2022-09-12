@@ -6,12 +6,14 @@
       <div class="main__content _container">
 
         <div class="main__btn-wrap">
-          <my-button :color="'blue'" class="btn__toMoscow" @click="pickTheTown('1')">Заказать в Москву</my-button>
-          <my-button :color="'teal'" class="btn__toSpb" @click="pickTheTown('2')">Заказать в Санкт-Петербург</my-button>
+          <my-button :color="'blue'" class="btn__toMoscow" @click="openForm(1)">Заказать в Москву
+          </my-button>
+          <my-button :color="'teal'" class="btn__toSpb" @click="openForm(2)">
+            Заказать в
+            Санкт-Петербург</my-button>
         </div>
 
-        <form-send class="main__form-toMoscow" v-if="(selectedTown === '1')" />
-        <form-send class="main__form-toSpb" v-else-if="(selectedTown ==='2')" />
+        <form-send class="main__form-toMoscow" v-if="showForm" />
 
       </div>
     </div>
@@ -30,12 +32,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      pickTheTown: 'pickTheTown',
+      changeDataTown: 'changeDataTown',
+      changeShowForm: 'changeShowForm',
     }),
+    openForm(number) {
+      this.changeDataTown(number);
+      this.changeShowForm(true)
+    }
   },
   computed: {
     ...mapState({
-      selectedTown: state => state.selectedTown
+      selectedTown: state => state.selectedTown,
+      dataTown: state => state.dataToSend.city_id,
+      showForm: state => state.showForm
     }),
   },
 }
