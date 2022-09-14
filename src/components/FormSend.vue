@@ -1,27 +1,30 @@
 <template>
 
-    <div class="form" @click.self="changeShowForm(false)">
+    <div class="form" @click.self="changeShowForm(false), showClickButton(false)" @keyup="checkValid">
         <div class="form__wrap">
             <h2 class="form__title">Заказать звонок</h2>
             <div class="form__row">
-                <my-input :nameId="'text'" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
-                    :data-error="dataError" :typeInput="'text'" class="form__input form__column" v-model="name">
-                    Имя*
+                <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
+                    :data-error="dataError" :typeInput="'text'" class="form__input form__column" v-model.trim="name"
+                    v-model:valid="valid[0]">
+                    Имя
                 </my-input>
-                <my-input :nameId="'number'" :req="true" :telNumber="true" :clickButton="clickButton"
-                    :placeHolder="placeHolders[1]" :data-error="dataError" :typeInput="'tel'"
-                    class="form__input form__column" v-model="phone">
-                    Телефон*
+                <my-input :nameId="2" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[1]"
+                    :data-error="dataError" :typeInput="'tel'" class="form__input form__column" v-model="phone"
+                    v-model:valid="valid[1]">
+                    Телефон
                 </my-input>
-                <my-input :nameId="'email'" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
-                    :data-error="dataError" :typeInput="'email'" class="form__input form__column" v-model="email">
-                    Email*
+                <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
+                    :data-error="dataError" :typeInput="'email'" class="form__input form__column" v-model.trim="email"
+                    v-model:valid="valid[2]">
+                    Email
                 </my-input>
-                <my-select :options="cities" v-model="idTown" class="form__select form__column">
-                    Город*
+                <my-select :nameId="4" :req="true" :options="cities" v-model="idTown" class="form__select form__column">
+                    Город
                 </my-select>
             </div>
-            <my-button :color="'green'" class="form__button" @click="checkDataToSend">Отправить</my-button>
+            <my-button :color="valid ? 'green' : 'gray'" class="form__button" @click="checkDataToSend">Отправить
+            </my-button>
         </div>
     </div>
 
@@ -29,7 +32,7 @@
 
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 
 export default {
     name: 'form-send',
@@ -39,6 +42,13 @@ export default {
             phone: '',
             email: '',
             idTown: '',
+            validAll: '',
+            valid: [false, false, false]
+            // valid: {
+            //     name: false,
+            //     phone: false,
+            //     email: false,
+            // },
         }
     },
     computed: {
@@ -46,17 +56,58 @@ export default {
             placeHolders: state => state.placeHolders,
             cities: state => state.cities,
             dataTown: state => state.dataToSend.city_id,
+            clickButton: state => state.clickButton,
+            dataError: state => state.dataError,
         }),
+        ...mapGetters({
+            // approveValid: 'approveValid',
+        }),
+        // validAll() {
+        //     if (name: t, phone: this.phone, email: this.email, city_id: this.idTown) return true
+        // }
     },
     methods: {
         ...mapActions({
             changeShowForm: 'changeShowForm',
             createDataToSend: 'createDataToSend',
+            checkValidForm: 'checkValidForm',
+            showClickButton: 'showClickButton',
+            checkInput: 'checkInput',
         }),
-        checkDataToSend() {
-            this.createDataToSend({ name: this.name, phone: this.phone, email: this.email, city_id: this.idTown })
+        // todo Вынести в стор
+        async checkDataToSend() {
+            if (this.approveValid) console.log('hello');
+
+            this.showClickButton(true)
+            await this.createDataToSend({ name: this.name, phone: this.phone, email: this.email, city_id: this.idTown });
+            this.checkValidForm()
         },
+        checkValid() {
+            console.log(this.checkValid2());
+            this.validAll = this.checkValid2()
+        },
+        checkValid2() {
+
+            let flag = false
+            this.valid.forEach(item => {
+
+                if (!item) {
+                    flag = false
+                    return flag
+                }
+                else flag = true
+            })
+            return flag
+        }
     },
+    // watch: {
+    //     valid: {
+    //         handler(item) {
+    //             console.log(item);
+    //         }
+    //     },
+    //     deep: true
+    // },
     mounted() {
         this.idTown = this.dataTown;
     }

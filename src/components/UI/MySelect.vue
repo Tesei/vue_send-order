@@ -6,7 +6,7 @@
         </label>
 
         <select class="select__item" @change="changeOption" v-model="defaultTown">
-            <option class="select__option" v-for="option in options" :key="option.id" :value="option.id">
+            <option class="select__option" v-for="option in options" :key="option.id" :value="option.id" :id="nameId">
                 {{ option.name }}
             </option>
         </select>
@@ -28,6 +28,14 @@ export default {
             type: Array,
             default: () => []
         },
+        nameId: {
+            type: [String, Number],
+            default: () => ''
+        },
+        req: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
         changeOption(event) {
@@ -41,7 +49,6 @@ export default {
         ...mapState({
             selectedTown: state => state.selectedTown,
             dataToSend: state => state.dataToSend,
-            // cities: state => state.cities,
         }),
     },
 }

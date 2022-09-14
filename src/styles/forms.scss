@@ -17,16 +17,16 @@
 		display: inline-block;
 		position: relative;
 
-		// &_req::after{			
-		// 	content: '';
-		// 	background-color: #FF8484;
-		// 	position: absolute;
-		// 	width: 4px;
-		// 	height: 4px;
-		// 	top: -1px;
-		// 	right: -5px;
-		// 	border-radius: 50%;					
-		// }			
+		&_req::after{			
+			content: '';
+			background-color: #FF8484;
+			position: absolute;
+			width: 5px;
+			height: 5px;
+			top: 4px;
+			right: -9px;
+			border-radius: 50%;					
+		}			
 	}
 	&__input {
 		position: relative;
@@ -39,8 +39,8 @@
 		left: 0;	
 		font-style: normal;
 			font-weight: 400;
-			font-size: 1.2rem;
-			line-height: 1.2rem;
+			font-size: 1.4rem;
+			line-height: 1.4rem;
 			letter-spacing: -0.02em;
 			color: darken(#FF8484, 15%);			
 	}

@@ -1,7 +1,7 @@
 <template>
 
     <button v-if="color" class="btn"
-        :class="{'_green': color === 'green', '_blue': color === 'blue', '_teal': color === 'teal'}">
+        :class="{'_green': color === 'green', '_blue': color === 'blue', '_teal': color === 'teal','_gray': color === 'gray'}">
         <slot></slot>
     </button>
 
@@ -63,6 +63,6 @@ export default {
 }
 
 ._gray {
-    background: #0D9488;
+    background: gray;
 }
 </style>

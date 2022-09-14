@@ -1,5 +1,3 @@
-
-
 <template>
     <div class="form__line">
 
@@ -7,28 +5,33 @@
             <slot></slot>
         </label>
 
-        <input v-if="telNumber" v-mask="'+7 (###) ###-##-##'" :type="typeInput" class="input" :value="modelValue"
-            @input="updateInput" :class="{ '_req': req, '_active': checkDataValue, '_error': showError }" :id="nameId"
-            autocomplete="off" name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError"
-            v-model="insertData">
+        <input v-if="typeInput === 'tel'" v-mask="'+7 (###) ###-##-##'" :type="typeInput" class="input"
+            :value="modelValue" @input="updateInput"
+            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
+            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
+
 
         <input v-else :type="typeInput" class="input" :value="modelValue" @input="updateInput"
-            :class="{ '_req': req, '_active': checkDataValue, '_error': showError }" :id="nameId" autocomplete="off"
-            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError" v-model="insertData">
+            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
+            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
 
-        <div v-if="showError" class="form__error">{{ dataError }}</div>
+
+        <div v-if="hasError" class="form__error">{{ dataError }}</div>
     </div>
 </template>
 
-
 <script>
 import { mask } from 'vue-the-mask'
-import { mapState } from 'vuex'
 
 export default {
     name: 'my-input',
     directives: { mask },
 
+    data() {
+        return {
+            validationCompleate: false
+        }
+    },
     props: {
         modelValue: [String, Number],
         nameId: {
@@ -48,10 +51,6 @@ export default {
             type: [String, Number],
             default: () => ''
         },
-        telNumber: {
-            type: [Boolean],
-            default: false
-        },
         clickButton: {
             type: [Boolean, String],
             default: false
@@ -65,23 +64,38 @@ export default {
         updateInput(event) {
             this.$emit('update:modelValue', event.target.value)
         },
+        checkData() {
+            if ((this.typeInput === 'tel') && this.modelValue.length !== 18) return true;
+            else if ((this.typeInput === 'email') && this.validateEmail !== true) return true;
+            else if (this.modelValue == false) return true;
+            return false;
+        },
     },
     computed: {
-        ...mapState({
-            dataToSend: state => state.dataToSend,
-        }),
         checkDataValue() {
             if (this.modelValue) return true;
-            else return false;
+            return false;
         },
-        showError() {
-            if (this.clickButton && this.modelValue == false) return true;
-            else return false;
+        validateEmail() {
+            // eslint-disable-next-line
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.modelValue)) return true
+            return false
         },
-        insertData() {
-            if (this.dataToSend[this.nameId]) return this.dataToSend[this.nameId]
-            return ''
+        // Показываем ошибку если данные не введены
+        hasError() {
+            if (this.clickButton) {
+                if ((this.typeInput === 'tel') && this.modelValue.length !== 18) return true;
+                else if ((this.typeInput === 'email') && this.validateEmail !== true) return true;
+                else if (this.modelValue == false) return true;
+            }
+            return false;
         },
+    },
+    watch: {
+        modelValue() {
+            this.validationCompleate = !this.checkData()
+            this.$emit('update:valid', this.validationCompleate)
+        }
     }
 }
 </script>
