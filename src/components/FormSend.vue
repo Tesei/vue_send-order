@@ -5,25 +5,27 @@
             <h2 class="form__title">Заказать звонок</h2>
             <div class="form__row">
                 <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
-                    :data-error="dataError" :typeInput="'text'" class="form__input form__column" v-model.trim="name"
-                    v-model:valid="valid[0]">
+                    :data-error="dataError[0]" :typeInput="'text'" class="form__input form__column"
+                    v-model.trim="insertedData.name" v-model:valid="valid.name">
                     Имя
                 </my-input>
                 <my-input :nameId="2" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[1]"
-                    :data-error="dataError" :typeInput="'tel'" class="form__input form__column" v-model="phone"
-                    v-model:valid="valid[1]">
+                    :data-error="dataError[1]" :typeInput="'tel'" class="form__input form__column"
+                    v-model="insertedData.phone" v-model:valid="valid.phone">
                     Телефон
                 </my-input>
                 <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
-                    :data-error="dataError" :typeInput="'email'" class="form__input form__column" v-model.trim="email"
-                    v-model:valid="valid[2]">
+                    :data-error="dataError[2]" :typeInput="'email'" class="form__input form__column"
+                    v-model.trim="insertedData.email" v-model:valid="valid.email">
                     Email
                 </my-input>
-                <my-select :nameId="4" :req="true" :options="cities" v-model="idTown" class="form__select form__column">
+                <my-select :nameId="4" :req="true" :options="cities" v-model="insertedData.idTown"
+                    class="form__select form__column">
                     Город
                 </my-select>
             </div>
-            <my-button :color="valid ? 'green' : 'gray'" class="form__button" @click="checkDataToSend">Отправить
+            <my-button :color="approveData ? 'green' : 'gray'" class="form__button"
+                @click="prepareDataToSend(insertedData)">Отправить
             </my-button>
         </div>
     </div>
@@ -32,23 +34,23 @@
 
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'form-send',
     data() {
         return {
-            name: '',
-            phone: '',
-            email: '',
-            idTown: '',
-            validAll: '',
-            valid: [false, false, false]
-            // valid: {
-            //     name: false,
-            //     phone: false,
-            //     email: false,
-            // },
+            insertedData: {
+                name: '',
+                phone: '',
+                email: '',
+                idTown: '',
+            },
+            valid: {
+                name: false,
+                phone: false,
+                email: false,
+            },
         }
     },
     computed: {
@@ -59,57 +61,22 @@ export default {
             clickButton: state => state.clickButton,
             dataError: state => state.dataError,
         }),
-        ...mapGetters({
-            // approveValid: 'approveValid',
-        }),
-        // validAll() {
-        //     if (name: t, phone: this.phone, email: this.email, city_id: this.idTown) return true
-        // }
+        approveData() {
+            for (let key in this.valid) {
+                if (this.valid[key] == false) {
+                    return false
+                }
+            } return true
+        }
     },
     methods: {
         ...mapActions({
             changeShowForm: 'changeShowForm',
-            createDataToSend: 'createDataToSend',
-            checkValidForm: 'checkValidForm',
-            showClickButton: 'showClickButton',
-            checkInput: 'checkInput',
+            prepareDataToSend: 'prepareDataToSend',
         }),
-        // todo Вынести в стор
-        async checkDataToSend() {
-            if (this.approveValid) console.log('hello');
-
-            this.showClickButton(true)
-            await this.createDataToSend({ name: this.name, phone: this.phone, email: this.email, city_id: this.idTown });
-            this.checkValidForm()
-        },
-        checkValid() {
-            console.log(this.checkValid2());
-            this.validAll = this.checkValid2()
-        },
-        checkValid2() {
-
-            let flag = false
-            this.valid.forEach(item => {
-
-                if (!item) {
-                    flag = false
-                    return flag
-                }
-                else flag = true
-            })
-            return flag
-        }
     },
-    // watch: {
-    //     valid: {
-    //         handler(item) {
-    //             console.log(item);
-    //         }
-    //     },
-    //     deep: true
-    // },
     mounted() {
-        this.idTown = this.dataTown;
+        this.insertedData.idTown = this.dataTown;
     }
 }
 </script>
