@@ -87,7 +87,7 @@ export default {
         border-top: 0;
         background-color: #FFFEFB;
         font-size: 1.6rem;
-        line-height: 2.2rem;
+        line-height: 2rem;
         min-width: 100%;
         cursor: pointer;
         padding: 10px 10px;

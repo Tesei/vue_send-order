@@ -27,7 +27,6 @@ export default createStore({
       "Телефон не корректен",
       "E-mail не корректен"
     ],
-    template: ''
   }),
   getters: {
   },
@@ -50,9 +49,6 @@ export default createStore({
     setClickButton (state, clickButton) {
       state.clickButton = clickButton;
     },
-    setClearNumber2 (state, newNumber) {
-      state.template = newNumber;
-    },
   },
   actions: {
     createDataToSend ({commit}, data){
@@ -68,14 +64,12 @@ export default createStore({
       commit('setClickButton', position);
     },
     clearPhoneNumber ({commit, state}){ 
-      console.log(state.dataToSend.phone);     
-      commit('setClearNumber2', state.dataToSend.phone.replace(/[()-\s]/g,'')); // Удаляем скобки и пробелы, тирэ
       commit('setClearNumber', state.dataToSend.phone.replace(/[()-\s]/g,'')); // Удаляем скобки и пробелы, тирэ
-      // commit('setDataItem', phone, state.dataToSend.phone.replace(/[()-\s]/g,'')); // Удаляем скобки и пробелы, тирэ
     },
     async prepareDataToSend({dispatch}, dataObject){
       dispatch('showClickButton', true)
-      await dispatch('createDataToSend', dataObject)
+      let notDependenceObject = JSON.parse(JSON.stringify(dataObject))
+      await dispatch('createDataToSend', notDependenceObject)
       await dispatch('clearPhoneNumber')
       await dispatch('clearPhoneNumber')
     }
