@@ -1,33 +1,31 @@
 <template>
 
-    <div class="form" @click.self="changeShowForm(false), showClickButton(false)" @keyup="checkValid">
-        <div class="form__wrap">
-            <h2 class="form__title">Заказать звонок</h2>
-            <div class="form__row">
-                <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
-                    :data-error="dataError[0]" :typeInput="'text'" class="form__input form__column"
-                    v-model.trim="insertedData.name" v-model:valid="valid.name">
-                    Имя
-                </my-input>
-                <my-input :nameId="2" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[1]"
-                    :data-error="dataError[1]" :typeInput="'tel'" class="form__input form__column"
-                    v-model="insertedData.phone" v-model:valid="valid.phone">
-                    Телефон
-                </my-input>
-                <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
-                    :data-error="dataError[2]" :typeInput="'email'" class="form__input form__column"
-                    v-model.trim="insertedData.email" v-model:valid="valid.email">
-                    Email
-                </my-input>
-                <my-select :nameId="4" :req="true" :options="cities" v-model="insertedData.idTown"
-                    class="form__select form__column">
-                    Город
-                </my-select>
-            </div>
-            <my-button :color="approveData ? 'green' : 'gray'" class="form__button"
-                @click="prepareDataToSend(insertedData)">Отправить
-            </my-button>
+    <div class="form">
+        <h2 class="form__title">Заказать звонок</h2>
+        <div class="form__row" @keyup="checkValid">
+            <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
+                :data-error="dataError[0]" :typeInput="'text'" class="form__input form__column"
+                v-model.trim="insertedData.name" v-model:valid="valid.name">
+                Имя
+            </my-input>
+            <my-input :nameId="2" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[1]"
+                :data-error="dataError[1]" :typeInput="'tel'" class="form__input form__column"
+                v-model="insertedData.phone" v-model:valid="valid.phone">
+                Телефон
+            </my-input>
+            <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
+                :data-error="dataError[2]" :typeInput="'email'" class="form__input form__column"
+                v-model.trim="insertedData.email" v-model:valid="valid.email">
+                Email
+            </my-input>
+            <my-select :nameId="4" :req="true" :options="cities" v-model="insertedData.city_id"
+                class="form__select form__column">
+                Город
+            </my-select>
         </div>
+        <my-button :color="approveData ? 'green' : 'gray'" class="form__button"
+            @click="prepareDataToSend(insertedData)">Отправить
+        </my-button>
     </div>
 
 </template>
@@ -44,7 +42,7 @@ export default {
                 name: '',
                 phone: '',
                 email: '',
-                idTown: '',
+                city_id: '',
             },
             valid: {
                 name: false,
@@ -71,12 +69,15 @@ export default {
     },
     methods: {
         ...mapActions({
-            changeShowForm: 'changeShowForm',
             prepareDataToSend: 'prepareDataToSend',
         }),
+        // clearUpData() {
+        //     this.insertedData = {}
+        //     // this.insertedData = {}
+        // }
     },
     mounted() {
-        this.insertedData.idTown = this.dataTown;
+        this.insertedData.city_id = this.dataTown;
     }
 }
 </script>
@@ -84,27 +85,10 @@ export default {
 
 <style scoped lang="scss">
 .form {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background: rgba(107, 114, 128, 0.75);
-    z-index: 5;
     display: flex;
+    flex-direction: column;
     align-content: center;
     justify-content: center;
-
-    // .form__wrap
-    &__wrap {
-        align-self: center;
-        background: #FFFFFF;
-        box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1), 0px 10px 10px -5px rgba(0, 0, 0, 0.04);
-        border-radius: 8px;
-        padding: 25px;
-        display: flex;
-        flex-direction: column;
-    }
 
     // .form__title
     &__title {
@@ -137,7 +121,6 @@ export default {
         &:last-child {
             margin: 0px 0px 0px 0px;
         }
-
     }
 
     // .form__select

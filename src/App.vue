@@ -1,6 +1,5 @@
 <template>
 
-
   <div class="wrapper">
     <div class="main">
       <div class="main__content _container">
@@ -9,11 +8,18 @@
           <my-button :color="'blue'" class="btn__toMoscow" @click="openForm(1)">Заказать в Москву
           </my-button>
           <my-button :color="'teal'" class="btn__toSpb" @click="openForm(2)">
-            Заказать в
-            Санкт-Петербург</my-button>
+            Заказать в Санкт-Петербург</my-button>
         </div>
 
-        <form-send class="main__form-toMoscow" v-if="showForm" />
+
+        <my-dialog @click.self="closeDialog" v-if="showForm && !(orderSuccess || orderError)">
+          <form-send class="main__form-toMoscow" />
+        </my-dialog>
+
+        <my-dialog @click.self="closeDialog" v-else-if="showForm && (orderSuccess || orderError)">
+          <h2>Hello world</h2>
+        </my-dialog>
+
 
       </div>
     </div>
@@ -34,17 +40,28 @@ export default {
     ...mapActions({
       changeDataTown: 'changeDataTown',
       changeShowForm: 'changeShowForm',
+      showClickButton: 'showClickButton',
+      createDataToSend: 'createDataToSend',
     }),
     openForm(number) {
       this.changeDataTown(number);
       this.changeShowForm(true)
+    },
+    closeDialog() {
+      this.changeShowForm(false)
+      this.showClickButton(false)
+
+      this.createDataToSend({}) // Улучшить логику очистки (данные + ответные данные + возможно стоит сделать флаг)
     }
   },
   computed: {
     ...mapState({
       selectedTown: state => state.selectedTown,
       dataTown: state => state.dataToSend.city_id,
-      showForm: state => state.showForm
+      showForm: state => state.showForm,
+      cityPicked: state => state.dataToSend.city_id,
+      orderError: state => state.orderError,
+      orderSuccess: state => state.orderSuccess,
     }),
   },
 }
@@ -67,8 +84,6 @@ export default {
   // .main__form-toSpb
   &__form-toSpb {}
 }
-
-
 
 // .btn__toMoscow
 .btn__toMoscow {

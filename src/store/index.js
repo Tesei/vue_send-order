@@ -1,4 +1,11 @@
 import { createStore } from 'vuex'
+import axios from 'axios';
+// import qs from 'qs'
+
+//  По умолчанию типом содержимого Axios является application / json, что является непростым запросом, 
+// изменяем метод запроса Axios по умолчанию, чтобы сделать его простым запросом
+// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+// axios.defaults.transformRequest = [obj => qs.stringify(obj)]
 
 export default createStore({
   state: ()=>( {
@@ -27,6 +34,10 @@ export default createStore({
       "Телефон не корректен",
       "E-mail не корректен"
     ],
+    dataSending: false,
+    orderSuccess: false,
+    orderError: false,
+    errors: '',    // для записи ошибок
   }),
   getters: {
   },
@@ -48,6 +59,18 @@ export default createStore({
     },
     setClickButton (state, clickButton) {
       state.clickButton = clickButton;
+    },
+    setDataSending (state, dataSending) {     
+      state.dataSending = dataSending;
+    },
+    setOrderSuccess (state, orderSuccess) {     
+      state.orderSuccess = orderSuccess;
+    },
+    setOrderError (state, orderError) {     
+      state.orderError = orderError;
+    },
+    setErrors (state, errors) {     
+      state.errors = errors;
     },
   },
   actions: {
@@ -71,8 +94,30 @@ export default createStore({
       let notDependenceObject = JSON.parse(JSON.stringify(dataObject))
       await dispatch('createDataToSend', notDependenceObject)
       await dispatch('clearPhoneNumber')
-      await dispatch('clearPhoneNumber')
+      await dispatch('orderSend')
+    },
+
+    async orderSend ({state, commit}){
+      commit("setDataSending", true);
+      axios.post(state.adressServer, 
+            state.dataToSend
+        )
+            .then((response) => {              
+              commit("setDataSending", false);                  
+              commit("setOrderSuccess", true);
+              // commit('setDataToSend', {});
+              console.log(response.data); // Эти данные нужно вывести на экран
+            })
+            .catch(e => {
+                commit("setErrors", e);
+                commit("setDataSending", false);
+                commit("setOrderError", true);
+                // commit('setDataToSend', {});
+
+            })
     }
+
+
   },
   modules: {
   }
