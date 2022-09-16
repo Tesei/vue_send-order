@@ -1,13 +1,14 @@
 <template>
 
-    <button v-if="color" class="btn"
+    <!-- <button v-if="color" class="btn"
         :class="{'_green': color === 'green', '_blue': color === 'blue', '_teal': color === 'teal','_gray': color === 'gray'}">
         <slot></slot>
-    </button>
-
-    <!-- <button v-else class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded btn">
-        <slot></slot>
     </button> -->
+
+    <button class=" text-white font-400 py-2 px-4 rounded"
+        :class="{'bg-green-500 hover:bg-green-700': color === 'green', 'bg-blue-500 hover:bg-blue-700': color === 'blue', 'bg-teal-500 hover:bg-teal-700': color === 'teal','bg-gray-500 hover:bg-gray-700': color === 'gray'}">
+        <slot></slot>
+    </button>
 </template>
 
 
@@ -26,6 +27,7 @@ export default {
     justify-content: center;
     align-items: center;
 
+
     border-radius: 6px;
     padding: 12px 13px;
     font-style: normal;
@@ -43,7 +45,7 @@ export default {
         background: #7BAE73;
     }
 
-    @media (min-width: $md2) {
+    @media (min-width: 991.98px) {
         &:hover {
             transform: scale(1.05);
         }
