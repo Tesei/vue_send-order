@@ -64,6 +64,6 @@ export default {
 
 ._gray {
     background: gray;
-    pointer-events: none;
+    // pointer-events: none;
 }
 </style>

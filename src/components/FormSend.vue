@@ -23,8 +23,8 @@
                 Город
             </my-select>
         </div>
-        <my-button :color="approveData ? 'green' : 'gray'" class="form__button"
-            @click="prepareDataToSend(insertedData)">Отправить
+        <my-button :color="checkData ? 'green' : 'gray'" class="form__button" @click="prepareDataToSend(insertedData)">
+            Отправить
         </my-button>
     </div>
 
@@ -32,7 +32,7 @@
 
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
     name: 'form-send',
@@ -59,22 +59,24 @@ export default {
             clickButton: state => state.clickButton,
             dataError: state => state.dataError,
         }),
-        approveData() {
+        checkData() {
             for (let key in this.valid) {
                 if (this.valid[key] == false) {
+                    this.setApproveData('')
                     return false
                 }
-            } return true
+            }
+            this.setApproveData(true)
+            return true
         }
     },
     methods: {
+        ...mapMutations({
+            setApproveData: 'setApproveData',
+        }),
         ...mapActions({
             prepareDataToSend: 'prepareDataToSend',
         }),
-        // clearUpData() {
-        //     this.insertedData = {}
-        //     // this.insertedData = {}
-        // }
     },
     mounted() {
         this.insertedData.city_id = this.dataTown;

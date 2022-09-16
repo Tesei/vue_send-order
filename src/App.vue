@@ -12,14 +12,18 @@
         </div>
 
 
-        <my-dialog @click.self="closeDialog" v-if="showForm && !(orderSuccess || orderError)">
+        <my-dialog @click.self="closeDialog" v-if="showForm && !(orderSuccess || orderError) && !dataSending">
           <form-send class="main__form-toMoscow" />
         </my-dialog>
 
-        <my-dialog @click.self="closeDialog" v-show="showForm && (orderSuccess || orderError)">
+        <!-- Прелоадер -->
+        <my-dialog @click.self="closeDialog" v-else-if="dataSending">
+          <my-preloader />
+        </my-dialog>
+
+        <my-dialog @click.self="closeDialog" v-else-if="showForm && (orderSuccess || orderError)">
           <h2 v-if="orderError" class="main__error-message">При отправке данных возникла ошибка! <br>Попробуйте
             отправить данные снова.</h2>
-
           <div class="main__response-message" v-html="messageForUser"></div>
         </my-dialog>
 
@@ -56,7 +60,7 @@ export default {
       this.showClickButton(false)
 
       this.clearCondidtionOrder()
-      this.createDataToSend({}) // Улучшить логику очистки (данные + ответные данные + возможно стоит сделать флаг)
+      this.createDataToSend({})
     }
   },
   computed: {
@@ -68,6 +72,7 @@ export default {
       orderError: state => state.orderError,
       orderSuccess: state => state.orderSuccess,
       messageForUser: state => state.messageForUser,
+      dataSending: state => state.dataSending,
     }),
   },
 }

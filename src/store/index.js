@@ -23,11 +23,11 @@ export default createStore({
         name: "Казань"
       }
     ],
-    adressServer: "http://hh.autodrive-agency.ru/test-tasks/front/task-77/",
+    adressServer: "http://hh.autodrive-agency.ru/test-tasks/front/task-7/",
     placeHolders: ["Иван Иванов", "+7 (___) ___-__-__", "you@example.com"],
     dataToSend: {name: '', phone: '', email: '', city_id: ''},
     showForm: false,
-    validForm: false,
+    approveData: false,
     clickButton: false,
     dataError: [
       "Поле является обязательным",
@@ -76,6 +76,9 @@ export default createStore({
     setMessageForUser (state, messageForUser) {     
       state.messageForUser = messageForUser;
     },
+    setApproveData (state, approveData) {     
+      state.approveData = approveData;
+    },
   },
   actions: {
     createDataToSend ({commit}, data){
@@ -93,12 +96,12 @@ export default createStore({
     clearPhoneNumber ({commit, state}){ 
       commit('setClearNumber', state.dataToSend.phone.replace(/[()-\s]/g,'')); // Удаляем скобки и пробелы, тирэ
     },
-    async prepareDataToSend({dispatch}, dataObject){
+    async prepareDataToSend({dispatch, state}, dataObject){
       dispatch('showClickButton', true)
       let notDependenceObject = JSON.parse(JSON.stringify(dataObject))
       await dispatch('createDataToSend', notDependenceObject)
       await dispatch('clearPhoneNumber')
-      await dispatch('orderSend')
+      if(state.approveData) await dispatch('orderSend')
     },
 
     async orderSend ({state, commit}){
