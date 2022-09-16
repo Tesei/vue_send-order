@@ -132,5 +132,6 @@ export default {
         width: calc(25% - 16px);
         height: 38px;
     }
+
 }
 </style>

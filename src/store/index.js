@@ -115,6 +115,11 @@ export default createStore({
                 // commit('setDataToSend', {});
 
             })
+    },
+
+    clearCondidtionOrder({commit}){
+      commit("setOrderError", '');
+      commit("setOrderSuccess", '');
     }
 
 

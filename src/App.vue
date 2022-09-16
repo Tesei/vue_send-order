@@ -42,6 +42,7 @@ export default {
       changeShowForm: 'changeShowForm',
       showClickButton: 'showClickButton',
       createDataToSend: 'createDataToSend',
+      clearCondidtionOrder: 'clearCondidtionOrder',
     }),
     openForm(number) {
       this.changeDataTown(number);
@@ -51,6 +52,7 @@ export default {
       this.changeShowForm(false)
       this.showClickButton(false)
 
+      this.clearCondidtionOrder()
       this.createDataToSend({}) // Улучшить логику очистки (данные + ответные данные + возможно стоит сделать флаг)
     }
   },
