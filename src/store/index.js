@@ -23,7 +23,7 @@ export default createStore({
         name: "Казань"
       }
     ],
-    adressServer: "http://hh.autodrive-agency.ru/test-tasks/front/task-7/",
+    adressServer: "http://hh.autodrive-agency.ru/test-tasks/front/task-77/",
     placeHolders: ["Иван Иванов", "+7 (___) ___-__-__", "you@example.com"],
     dataToSend: {name: '', phone: '', email: '', city_id: ''},
     showForm: false,
@@ -38,6 +38,7 @@ export default createStore({
     orderSuccess: false,
     orderError: false,
     errors: '',    // для записи ошибок
+    messageForUser: ''
   }),
   getters: {
   },
@@ -72,6 +73,9 @@ export default createStore({
     setErrors (state, errors) {     
       state.errors = errors;
     },
+    setMessageForUser (state, messageForUser) {     
+      state.messageForUser = messageForUser;
+    },
   },
   actions: {
     createDataToSend ({commit}, data){
@@ -105,23 +109,20 @@ export default createStore({
             .then((response) => {              
               commit("setDataSending", false);                  
               commit("setOrderSuccess", true);
-              // commit('setDataToSend', {});
-              console.log(response.data); // Эти данные нужно вывести на экран
+              commit('setMessageForUser', response.data)
             })
             .catch(e => {
                 commit("setErrors", e);
                 commit("setDataSending", false);
                 commit("setOrderError", true);
-                // commit('setDataToSend', {});
-
+              commit('setMessageForUser', e)
             })
     },
 
     clearCondidtionOrder({commit}){
-      commit("setOrderError", '');
-      commit("setOrderSuccess", '');
-    }
-
+      commit("setOrderError", false);
+      commit("setOrderSuccess", false);
+    },
 
   },
   modules: {

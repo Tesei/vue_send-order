@@ -16,8 +16,11 @@
           <form-send class="main__form-toMoscow" />
         </my-dialog>
 
-        <my-dialog @click.self="closeDialog" v-else-if="showForm && (orderSuccess || orderError)">
-          <h2>Hello world</h2>
+        <my-dialog @click.self="closeDialog" v-show="showForm && (orderSuccess || orderError)">
+          <h2 v-if="orderError" class="main__error-message">При отправке данных возникла ошибка! <br>Попробуйте
+            отправить данные снова.</h2>
+
+          <div class="main__response-message" v-html="messageForUser"></div>
         </my-dialog>
 
 
@@ -64,6 +67,7 @@ export default {
       cityPicked: state => state.dataToSend.city_id,
       orderError: state => state.orderError,
       orderSuccess: state => state.orderSuccess,
+      messageForUser: state => state.messageForUser,
     }),
   },
 }
@@ -85,6 +89,13 @@ export default {
 
   // .main__form-toSpb
   &__form-toSpb {}
+
+  // .main__error-message
+  &__error-message {
+    color: #FF8484;
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
 }
 
 // .btn__toMoscow
