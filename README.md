@@ -1,5 +1,5 @@
 # order_call
-Проект выполнен с применением vuex, TailwindCSS, плюс немного scss
+Проект выполнен с применением vuex, Axios, TailwindCSS, плюс немного scss
 
 ## Project setup
 ```
