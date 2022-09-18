@@ -1,11 +1,5 @@
 import { createStore } from 'vuex'
 import axios from 'axios';
-// import qs from 'qs'
-
-//  По умолчанию типом содержимого Axios является application / json, что является непростым запросом, 
-// изменяем метод запроса Axios по умолчанию, чтобы сделать его простым запросом
-// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-// axios.defaults.transformRequest = [obj => qs.stringify(obj)]
 
 export default createStore({
   state: ()=>( {

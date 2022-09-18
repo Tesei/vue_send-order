@@ -5,10 +5,10 @@
       <div class="main__content max-w-2xl p-6">
 
         <div class="sm:flex">
-          <my-button :color="'blue'" class="m-1 w-full sm:w-auto" @click="openForm(1)">
+          <my-button :color="'blue'" class="mx-1 my-2 w-full sm:w-auto" @click="openForm(1)">
             Заказать в Москву
           </my-button>
-          <my-button :color="'teal'" class="m-1 w-full sm:w-auto" @click="openForm(2)">
+          <my-button :color="'teal'" class="mx-1 my-2 w-full sm:w-auto" @click="openForm(2)">
             Заказать в
             Санкт-Петербург
           </my-button>
@@ -25,7 +25,7 @@
         </my-dialog>
 
         <my-dialog @click.self="closeDialog" v-else-if="showForm && (orderSuccess || orderError)">
-          <h2 v-if="orderError" class="text-red-light text-2xl mb-4">При отправке данных возникла ошибка! <br>Попробуйте
+          <h2 v-if="orderError" class="text-red-400 text-2xl mb-4">При отправке данных возникла ошибка! <br>Попробуйте
             отправить данные снова.</h2>
           <div class="main__response-message" v-html="messageForUser"></div>
         </my-dialog>
@@ -80,7 +80,3 @@ export default {
   },
 }
 </script>
-
-<!-- <style lang="scss">
-#app {}
-</style> -->
