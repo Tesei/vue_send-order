@@ -2,18 +2,21 @@
 
   <div class="wrapper">
     <div class="main">
-      <div class="main__content _container">
+      <div class="main__content max-w-2xl p-6">
 
-        <div class="main__btn-wrap">
-          <my-button :color="'blue'" class="btn__toMoscow" @click="openForm(1)">Заказать в Москву
+        <div class="sm:flex">
+          <my-button :color="'blue'" class="m-1 w-full sm:w-auto" @click="openForm(1)">
+            Заказать в Москву
           </my-button>
-          <my-button :color="'teal'" class="btn__toSpb" @click="openForm(2)">
-            Заказать в Санкт-Петербург</my-button>
+          <my-button :color="'teal'" class="m-1 w-full sm:w-auto" @click="openForm(2)">
+            Заказать в
+            Санкт-Петербург
+          </my-button>
         </div>
 
 
         <my-dialog @click.self="closeDialog" v-if="showForm && !(orderSuccess || orderError) && !dataSending">
-          <form-send class="main__form-toMoscow" />
+          <form-send class="main__form-toMoscow2" />
         </my-dialog>
 
         <!-- Прелоадер -->
@@ -22,7 +25,7 @@
         </my-dialog>
 
         <my-dialog @click.self="closeDialog" v-else-if="showForm && (orderSuccess || orderError)">
-          <h2 v-if="orderError" class="main__error-message">При отправке данных возникла ошибка! <br>Попробуйте
+          <h2 v-if="orderError" class="text-red-light text-2xl mb-4">При отправке данных возникла ошибка! <br>Попробуйте
             отправить данные снова.</h2>
           <div class="main__response-message" v-html="messageForUser"></div>
         </my-dialog>
@@ -78,36 +81,6 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<!-- <style lang="scss">
 #app {}
-
-.main {
-
-  // .main__btn-wrap
-  &__btn-wrap {
-    display: flex;
-    margin-top: 20px;
-  }
-
-  // .main__form-toMoscow
-  &__form-toMoscow {}
-
-  // .main__form-toSpb
-  &__form-toSpb {}
-
-  // .main__error-message
-  &__error-message {
-    color: #FF8484;
-    font-size: 2rem;
-    margin-bottom: 15px;
-  }
-}
-
-// .btn__toMoscow
-.btn__toMoscow {
-  margin-right: 20px !important;
-}
-
-// .btn__toSpb
-.btn__toSpb {}
-</style>
+</style> -->

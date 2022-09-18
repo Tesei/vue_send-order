@@ -1,31 +1,40 @@
 <template>
 
-    <div class="form">
-        <h2 class="form__title">Заказать звонок</h2>
-        <div class="form__row" @keyup="checkValid">
+    <div class="mr-15">
+        <h2 class="font-normal font-500 text-2xl mb-6">Заказать звонок</h2>
+        <div class="form__row flex mb-4 flex-row flex-wrap justify-end items-end" @keyup="checkValid">
             <my-input :nameId="1" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[0]"
-                :data-error="dataError[0]" :typeInput="'text'" class="form__input form__column"
+                :data-error="dataError[0]" :typeInput="'text'"
+                class="flex-auto mb-5 sm:pr-7 md:pr-5 basis-full sm:basis-2/6 md:basis-1/4"
                 v-model.trim="insertedData.name" v-model:valid="valid.name">
                 Имя
             </my-input>
             <my-input :nameId="2" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[1]"
-                :data-error="dataError[1]" :typeInput="'tel'" class="form__input form__column"
+                :data-error="dataError[1]" :typeInput="'tel'"
+                class="form__input2 form__column2 mb-5 flex-auto sm:pr-7 md:pr-5 basis-full sm:basis-2/6 md:basis-1/4"
                 v-model="insertedData.phone" v-model:valid="valid.phone">
                 Телефон
             </my-input>
             <my-input :nameId="3" :req="true" :clickButton="clickButton" :placeHolder="placeHolders[2]"
-                :data-error="dataError[2]" :typeInput="'email'" class="form__input form__column"
+                :data-error="dataError[2]" :typeInput="'email'"
+                class="form__input2 form__column2 mb-5 flex-auto md:pr-5 basis-full sm:basis-2/6 md:basis-1/4"
                 v-model.trim="insertedData.email" v-model:valid="valid.email">
                 Email
             </my-input>
             <my-select :nameId="4" :req="true" :options="cities" v-model="insertedData.city_id"
-                class="form__select form__column">
+                class="form__select2 form__column2 flex-auto mb-5 sm:mb-0 md:mb-5 sm:pr-7 md:pr-0 basis-full sm:basis-4/6 md:basis-1/4">
                 Город
             </my-select>
+            <my-button :color="checkData ? 'green' : 'gray'"
+                class="form__button2 flex-init basis-full sm:basis-2/6 md:basis-1/4 md:ml-5"
+                @click="prepareDataToSend(insertedData)">
+                Отправить
+            </my-button>
         </div>
-        <my-button :color="checkData ? 'green' : 'gray'" class="form__button" @click="prepareDataToSend(insertedData)">
+        <!-- <my-button :color="checkData ? 'green' : 'gray'" class="form__button2 self-end w-1/4 inline-flex"
+            @click="prepareDataToSend(insertedData)">
             Отправить
-        </my-button>
+        </my-button> -->
     </div>
 
 </template>
@@ -86,54 +95,49 @@ export default {
 
 
 <style scoped lang="scss">
-.form {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
+// .form {
+//     display: flex;
+//     flex-direction: column;
+//     align-content: center;
+//     justify-content: center;
 
-    // .form__title
-    &__title {
-        font-style: normal;
-        font-weight: 500;
-        font-size: 24px;
-        line-height: 24px;
-        margin-bottom: 25px;
-    }
+//     // .form__title
+//     &__title {
+//         font-style: normal;
+//         font-weight: 500;
+//         font-size: 24px;
+//         line-height: 24px;
+//         margin-bottom: 25px;
+//     }
 
-    // .form__row
-    &__row {
-        display: flex;
-        margin-bottom: 18px;
+//     // form__column
+//     &__column {
+//         flex: 0 1 25%;
+//     }
 
-        &:last-child {
-            margin: 0px 0px 0px 0px;
-        }
-    }
+//     // .form__input
+//     &__input {
+//         margin-right: 20px;
 
-    // form__column
-    &__column {
-        flex: 0 1 25%;
-    }
+//         &:last-child {
+//             margin: 0px 0px 0px 0px;
+//         }
+//     }
 
-    // .form__input
-    &__input {
-        margin-right: 20px;
+//     // .form__select
+//     &__select {}
 
-        &:last-child {
-            margin: 0px 0px 0px 0px;
-        }
-    }
+//     // .form__button
+//     // &__button {
+//     //     align-self: flex-end;
+//     //     width: calc(25% - 16px);
+//     //     height: 38px;
+//     // }
 
-    // .form__select
-    &__select {}
+// }
 
-    // .form__button
-    &__button {
-        align-self: flex-end;
-        width: calc(25% - 16px);
-        height: 38px;
-    }
-
+// .form__row
+.form__row:last-child {
+    margin: 0px 0px 0px 0px;
 }
 </style>

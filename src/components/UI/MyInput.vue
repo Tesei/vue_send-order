@@ -1,23 +1,30 @@
 <template>
-    <div class="form__line">
+    <div class="form__line2 relative">
 
-        <label :for="nameId" class="form__label" :class="{ 'form__label_req': req }">
+        <label :for="nameId" class="form__label2 font-400 text-base text-stone-900 mb-1 inline-block relative"
+            :class="{ 'form__label_req': req }">
+            <!-- Доделать выше -->
             <slot></slot>
         </label>
 
-        <input v-if="typeInput === 'tel'" v-mask="'+7 (###) ###-##-##'" :type="typeInput" class="input"
+        <input v-if="typeInput === 'tel'" v-mask="'+7 (###) ###-##-##'" :type="typeInput"
+            class="input w-full bg-white shadow-sm rounded-md h-10 px-3 py-2 font-400 text-base text-slate-600 flex justify-start items-start border-slate-300 border"
             :value="modelValue" @input="updateInput"
             :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
             name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
 
 
-        <input v-else :type="typeInput" class="input" :value="modelValue" @input="updateInput"
+        <input v-else :type="typeInput"
+            class="input w-full bg-white shadow-sm rounded-md w-43 h-10 px-3 py-2 font-400 text-base text-slate-600 flex justify-start items-start border-slate-300 border"
+            :value="modelValue" @input="updateInput"
             :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
             name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
 
 
-        <div v-if="hasError" class="form__error">{{ dataError }}</div>
+        <div v-if="hasError" class="form__error2 absolute -bottom-6 left-0 font-400 text-sm text-red-400">
+            {{ dataError }}</div>
     </div>
+
 </template>
 
 <script>
@@ -101,46 +108,58 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-textarea {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-
-    &:focus {
-        outline: none;
-    }
+.form__label_req::after {
+    content: '*';
+    position: absolute;
+    color: #FF8484;
+    top: -4px;
+    right: -9px;
+    border-radius: 50%;
 }
 
+
+//===============================================================
+
+// input[type="text"],
+// input[type="email"],
+// input[type="tel"],
+// textarea {
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+//     appearance: none;
+
+//     &:focus {
+//         outline: none;
+//     }
+// }
+
 .input {
-    display: block;
-    background: white;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-    border-radius: 6px;
-    width: 100%;
-    padding: 9px 13px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    color: #6B7280;
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    border: 1px solid #D1D5DB;
+    // background: white;
+    // box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    // border-radius: 6px;
+    // width: 100%;
+    // padding: 9px 13px;
+    // font-style: normal;
+    // font-weight: 400;
+    // font-size: 1.6rem;
+    // line-height: 2rem;
+    // color: #6B7280;
+    // display: flex;
+    // align-items: flex-start;
+    // justify-content: flex-start;
+    // border: 1px solid rgb(209, 213, 219);
 
     &:focus {
         box-shadow: 1px 3px 8px rgba(0, 128, 0, 0.3);
+        outline: none;
     }
 
-    &._focus {
-        color: #3F3F3F;
-    }
+    // &._focus {
+    //     color: #3F3F3F;
+    // }
+}
 
-    &._error {
-        border: 1px solid #FF8484;
-    }
+._error {
+    border: 1px solid #FF8484;
 }
 </style>
