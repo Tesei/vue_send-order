@@ -109,10 +109,10 @@ export default createStore({
               commit('setMessageForUser', response.data)
             })
             .catch(e => {
-                commit("setErrors", e);
+                commit("setErrors", e.message);
                 commit("setDataSending", false);
                 commit("setOrderError", true);
-              commit('setMessageForUser', e)
+              commit('setMessageForUser', e.message)
             })
     },
 

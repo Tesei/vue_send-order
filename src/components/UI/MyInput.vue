@@ -20,7 +20,7 @@
             name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
 
 
-        <div v-if="hasError" class="form__error2 absolute -bottom-5 left-0 font-400 text-sm text-red-400">
+        <div v-if="hasError" class="form__error2 absolute -bottom-5 left-0 font-400 text-xs text-red-400">
             {{ dataError }}</div>
     </div>
 
