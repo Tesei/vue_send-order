@@ -92,7 +92,9 @@ export default createStore({
     },
     async prepareDataToSend({dispatch, state}, dataObject){
       dispatch('showClickButton', true)
-      let notDependenceObject = JSON.parse(JSON.stringify(dataObject))
+      // let notDependenceObject = JSON.parse(JSON.stringify(dataObject)) // Возможная замена
+      const {...notDependenceObject} = dataObject
+
       await dispatch('createDataToSend', notDependenceObject)
       await dispatch('clearPhoneNumber')
       if(state.approveData) await dispatch('orderSend')
@@ -120,8 +122,5 @@ export default createStore({
       commit("setOrderError", false);
       commit("setOrderSuccess", false);
     },
-
   },
-  modules: {
-  }
 })
