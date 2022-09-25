@@ -1,22 +1,20 @@
 <template>
 
-  <div class="wrapper">
+  <div class="wrapper" v-cloak>
     <div class="main">
       <div class="main__content max-w-2xl p-6">
 
         <div class="sm:flex">
-          <my-button :color="'blue'" class="mx-1 my-2 w-full sm:w-auto" @click="openForm(1)">
+          <my-button class="mx-1 my-2 w-full sm:w-auto bg-blue-500 hover:bg-blue-700" @click="openForm(1)">
             Заказать в Москву
           </my-button>
-          <my-button :color="'teal'" class="mx-1 my-2 w-full sm:w-auto" @click="openForm(2)">
-            Заказать в
-            Санкт-Петербург
+          <my-button class="mx-1 my-2 w-full sm:w-auto bg-teal-500 hover:bg-teal-700" @click="openForm(2)">
+            Заказать в Санкт-Петербург
           </my-button>
         </div>
 
-
         <my-dialog @click.self="closeDialog" v-if="showForm && !(orderSuccess || orderError) && !dataSending">
-          <form-send class="main__form-toMoscow2" />
+          <form-send />
         </my-dialog>
 
         <!-- Прелоадер -->
@@ -29,7 +27,6 @@
             отправить данные снова.</h2>
           <div class="main__response-message" v-html="messageForUser"></div>
         </my-dialog>
-
 
       </div>
     </div>

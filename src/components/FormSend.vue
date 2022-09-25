@@ -24,9 +24,8 @@
             class="form__select2 form__column2 flex-auto mb-5 sm:mb-0 md:mb-5 sm:pr-7 md:pr-0 basis-full sm:basis-4/6 md:basis-1/4">
             Город
         </my-select>
-        <my-button :color="checkData ? 'green' : 'gray'"
-            class="form__button2 flex-init basis-full sm:basis-2/6 md:basis-1/4 md:ml-5"
-            @click="prepareDataToSend(insertedData)">
+        <my-button class="form__button2 flex-init basis-full sm:basis-2/6 md:basis-1/4 md:ml-5  "
+            @click="prepareDataToSend(insertedData)" :class="checkData">
             Отправить
         </my-button>
     </div>
@@ -66,11 +65,11 @@ export default {
             for (let key in this.valid) {
                 if (this.valid[key] == false) {
                     this.setApproveData('')
-                    return false
+                    return 'bg-gray-400 hover:bg-gray-600'
                 }
             }
             this.setApproveData(true)
-            return true
+            return 'bg-green-500 hover:bg-green-700'
         }
     },
     methods: {
@@ -88,8 +87,7 @@ export default {
 </script>
 
 
-<style scoped lang="scss">
-// .form__row
+<style scoped>
 .form__row:last-child {
     margin: 0px 0px 0px 0px;
 }

@@ -58,7 +58,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .form__label_req::after {
     content: '*';
     position: absolute;
