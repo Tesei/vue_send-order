@@ -1,26 +1,51 @@
 <template>
     <div class="form__line2 relative">
 
-        <label :for="nameId" class="form__label2 font-400 text-base text-stone-900 mb-1 inline-block relative"
-            :class="{ 'form__label_req': req }">
+        <label
+            :for="nameId"
+            class="form__label2 font-400 text-base text-stone-900 mb-1 inline-block relative"
+            :class="{ 'form__label_req': req }"
+        >
             <slot></slot>
         </label>
 
-        <input v-if="typeInput === 'tel'" v-mask="'+7 (###) ###-##-##'" :type="typeInput"
+        <input
+            v-if="typeInput === 'tel'"
+            v-mask="'+7 (###) ###-##-##'"
+            :type="typeInput"
             class="input w-full bg-white shadow-sm rounded-md h-10 px-3 py-2 font-400 text-base text-slate-600 flex justify-start items-start border-slate-300 border"
-            :value="modelValue" @input="updateInput"
-            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
-            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
+            :value="modelValue"
+            @input="updateInput"
+            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }"
+            :id="nameId"
+            autocomplete="off"
+            name="form[]"
+            data-value=""
+            :placeholder="placeHolder"
+            :data-error="dataError"
+        >
 
 
-        <input v-else :type="typeInput"
+        <input
+            v-else
+            :type="typeInput"
             class="input w-full bg-white shadow-sm rounded-md w-43 h-10 px-3 py-2 font-400 text-base text-slate-600 flex justify-start items-start border-slate-300 border"
-            :value="modelValue" @input="updateInput"
-            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }" :id="nameId" autocomplete="off"
-            name="form[]" data-value="" :placeholder="placeHolder" :data-error="dataError">
+            :value="modelValue"
+            @input="updateInput"
+            :class="{ '_req': req, '_active': checkDataValue, '_error': hasError }"
+            :id="nameId"
+            autocomplete="off"
+            name="form[]"
+            data-value=""
+            :placeholder="placeHolder"
+            :data-error="dataError"
+        >
 
 
-        <div v-if="hasError" class="form__error2 absolute -bottom-5 left-0 font-400 text-xs text-red-400">
+        <div
+            v-if="hasError"
+            class="form__error2 absolute -bottom-5 left-0 font-400 text-xs text-red-400"
+        >
             {{ dataError }}</div>
     </div>
 

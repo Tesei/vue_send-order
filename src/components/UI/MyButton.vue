@@ -1,7 +1,8 @@
 <template>
 
     <button
-        class="flex justify-center content-center text-white font-400 py-3 px-3 rounded-md transition-all cursor-pointer shadow-sm h-10 leading-4">
+        class="flex justify-center content-center text-white font-400 py-3 px-3 rounded-md transition-all cursor-pointer shadow-sm h-10 leading-4"
+    >
         <slot></slot>
     </button>
 
